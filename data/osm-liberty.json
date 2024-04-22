@@ -1,0 +1,926 @@
+{
+  "version": 8,
+  "name": "Mini Linear 3D",
+  "center": [139.7670, 35.6814],
+  "zoom": 8,
+  "bearing": 0,
+  "pitch": 60,
+  "sources": {
+    "mapbox": {
+      "type": "vector",
+      "url": "mapbox://mapbox.mapbox-streets-v8"
+    },
+    "natural_earth_shaded_relief": {
+      "maxzoom": 6,
+      "tileSize": 256,
+      "tiles": [
+        "https://klokantech.github.io/naturalearthtiles/tiles/natural_earth_2_shaded_relief.raster/{z}/{x}/{y}.png"
+      ],
+      "type": "raster"
+    },
+    "mapbox-satellite": {
+      "url": "mapbox://mapbox.satellite",
+      "type": "raster",
+      "tileSize": 256
+    },
+    "mapbox-terrain-rgb": {
+      "url": "mapbox://mapbox.terrain-rgb",
+      "type": "raster-dem",
+      "tileSize": 256
+    },
+    "mapbox-terrain-dem-v1": {
+      "url": "mapbox://mapbox.mapbox-terrain-dem-v1",
+      "type": "raster-dem",
+      "tileSize": 512,
+      "maxzoom": 14
+    }
+  },
+  "sprite": "mapbox://sprites/mapbox-map-design/claitl3i0002715qm9990tl95/62g2zb2ktjonxqfglcamqvkzm",
+  "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+  "terrain": {
+    "source": "mapbox-terrain-dem-v1",
+    "exaggeration": 1
+  },
+  "fog": {
+    "range": [
+      "interpolate",
+      ["exponential", 1.2],
+      ["zoom"],
+      13,
+      ["literal", [0, 12]],
+      15,
+      ["literal", [0, 20]],
+      17,
+      ["literal", [5, 20]]
+    ],
+    "color": [
+      "interpolate",
+      ["exponential", 1.2],
+      ["zoom"],
+      5,
+      "hsl(0, 0%, 100%)",
+      7,
+      "hsla(215, 100%, 82%, 1.0)"
+    ],
+    "high-color": [
+      "interpolate",
+      ["exponential", 1.2],
+      ["zoom"],
+      5,
+      "hsl(215, 100%, 51%)",
+      7,
+      "hsl(0, 0%, 100%)"
+    ],
+    "space-color": [
+      "interpolate",
+      ["exponential", 1.2],
+      ["zoom"],
+      5,
+      "hsl(211, 84%, 9%)",
+      7,
+      "hsl(210, 100%, 80%)"
+    ],
+    "horizon-blend": [
+      "interpolate",
+      ["exponential", 1.2],
+      ["zoom"],
+      5,
+      0.01,
+      7,
+      0.03
+    ],
+    "star-intensity": [
+      "interpolate",
+      ["exponential", 1.2],
+      ["zoom"],
+      5,
+      0.2,
+      7,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgba(239,239,239,1)"
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-underground": 0
+      }
+    },
+    {
+      "id": "natural_earth",
+      "type": "raster",
+      "source": "natural_earth_shaded_relief",
+      "maxzoom": 6,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "raster-opacity": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          0,
+          0.6,
+          6,
+          0.1
+        ]
+      }
+    },
+    {
+      "id": "satellite-saturated",
+      "type": "raster",
+      "source": "mapbox-satellite",
+      "layout": {},
+      "paint": {
+        "raster-saturation": 0.28,
+        "raster-brightness-max": 0.89,
+        "raster-fade-duration": 500,
+        "raster-opacity": 1
+      },
+      "metadata": {
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.25,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "waterway_river",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "waterway",
+      "filter": [
+        "==",
+        "class",
+        "river"
+      ],
+      "layout": {
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "rgba(160,200,240,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.2],
+          ["zoom"],
+          11,
+          0.5,
+          20,
+          6
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "waterway_other",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "waterway",
+      "filter": [
+        "all",
+        [
+          "!=",
+          "class",
+          "river"
+        ]
+      ],
+      "layout": {
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "rgba(160,200,240,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          13,
+          0.5,
+          20,
+          6
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "tunnel_major_rail",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "==",
+          "structure",
+          "tunnel"
+        ],
+        [
+          "==",
+          "class",
+          "major_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "tunnel_major_rail_hatching",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "==",
+          "structure",
+          "tunnel"
+        ],
+        [
+          "==",
+          "class",
+          "major_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "tunnel_transit_rail",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "==",
+          "structure",
+          "tunnel"
+        ],
+        [
+          "in",
+          "class",
+          "minor_rail",
+          "service_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "tunnel_transit_rail_hatching",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "==",
+          "structure",
+          "tunnel"
+        ],
+        [
+          "in",
+          "class",
+          "minor_rail",
+          "service_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "road_major_rail",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "!in",
+          "structure",
+          "bridge",
+          "tunnel"
+        ],
+        [
+          "==",
+          "class",
+          "major_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "road_major_rail_hatching",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "!in",
+          "structure",
+          "bridge",
+          "tunnel"
+        ],
+        [
+          "==",
+          "class",
+          "major_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "road_transit_rail",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "!in",
+          "structure",
+          "bridge",
+          "tunnel"
+        ],
+        [
+          "in",
+          "class",
+          "minor_rail",
+          "service_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "road_transit_rail_hatching",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "!in",
+          "structure",
+          "bridge",
+          "tunnel"
+        ],
+        [
+          "in",
+          "class",
+          "minor_rail",
+          "service_rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "bridge_major_rail",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "==",
+          "class",
+          "major_rail"
+        ],
+        [
+          "==",
+          "structure",
+          "bridge"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "bridge_major_rail_hatching",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "==",
+          "class",
+          "major_rail"
+        ],
+        [
+          "==",
+          "structure",
+          "bridge"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "bridge_transit_rail",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "in",
+          "class",
+          "minor_rail",
+          "service_rail"
+        ],
+        [
+          "==",
+          "structure",
+          "bridge"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "bridge_transit_rail_hatching",
+      "type": "line",
+      "source": "mapbox",
+      "source-layer": "road",
+      "filter": [
+        "all",
+        [
+          "in",
+          "class",
+          "minor_rail",
+          "service_rail"
+        ],
+        [
+          "==",
+          "structure",
+          "bridge"
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(187,187,187,1)",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.4],
+          ["zoom"],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "building-underground",
+      "type": "fill",
+      "source": "mapbox",
+      "source-layer": "building",
+      "minzoom": 14.5,
+      "filter": [
+        "all",
+        [
+          "match",
+          ["get", "type"],
+          ["underground_mall", "subway"],
+          true,
+          false
+        ],
+        ["==", ["get", "underground"], "true"],
+        ["==", ["geometry-type"], "Polygon"]
+      ],
+      "layout": {},
+      "paint": {
+        "fill-outline-color": "hsl(35, 8%, 80%)",
+        "fill-opacity": {
+          "base": 1,
+          "stops": [
+            [
+              14.5,
+              0
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        },
+        "fill-color": "hsla(268, 67%, 67%, 0.25)"
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0
+      }
+    },
+    {
+      "id": "building",
+      "type": "fill",
+      "source": "mapbox",
+      "source-layer": "building",
+      "filter": [
+        "all",
+        [
+          "!=",
+          ["get", "type"],
+          "building:part"
+        ],
+        [
+          "==",
+          ["get", "underground"],
+          "false"
+        ]
+      ],
+      "minzoom": 13,
+      "maxzoom": 14,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "rgba(220,217,214,1)",
+        "fill-outline-color": {
+          "base": 1,
+          "stops": [
+            [
+              13,
+              "rgba(205,202,198,0.32)"
+            ],
+            [
+              14,
+              "rgba(205,202,198,1)"
+            ]
+          ]
+        }
+      },
+      "metadata": {
+        "mt3d:color-effect": true,
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "building-3d",
+      "type": "fill-extrusion",
+      "source": "mapbox",
+      "source-layer": "building",
+      "filter": [
+        "==",
+        ["get", "underground"],
+        "false"
+      ],
+      "minzoom": 14,
+      "layout": {
+        "visibility": "visible",
+        "fill-extrusion-edge-radius": 0.3
+      },
+      "paint": {
+        "fill-extrusion-color": "rgba(255,252,249,1)",
+        "fill-extrusion-height": {
+          "property": "height",
+          "type": "identity"
+        },
+        "fill-extrusion-base": {
+          "property": "min_height",
+          "type": "identity"
+        },
+        "fill-extrusion-opacity": 0.8,
+        "fill-extrusion-ambient-occlusion-intensity": 0.4,
+        "fill-extrusion-ambient-occlusion-radius": 20
+      },
+      "metadata": {
+        "mt3d:opacity-effect": true,
+        "mt3d:opacity": 1,
+        "mt3d:opacity-route": 0.1,
+        "mt3d:opacity-underground": 0.0625,
+        "mt3d:opacity-underground-route": 0.025
+      }
+    },
+    {
+      "id": "poi",
+      "type": "symbol",
+      "source": "mapbox",
+      "source-layer": "transit_stop_label",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Point"
+        ],
+        [
+          "==",
+          "stop_type",
+          "station"
+        ],
+        [
+          "in",
+          "mode",
+          "rail",
+          "metro_rail",
+          "monorail",
+          "light_rail",
+          "tram"
+        ]
+      ],
+      "layout": {
+        "text-font": [
+          "Open Sans Bold",
+          "Arial Unicode MS Bold"
+        ],
+        "text-max-width": 9,
+        "text-padding": 2,
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "rgba(102,102,102,1)",
+        "text-halo-blur": 0.5,
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1
+      }
+    }
+  ],
+  "id": "mini-linear-3d"
+}
